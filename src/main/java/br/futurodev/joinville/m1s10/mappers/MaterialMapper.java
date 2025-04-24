@@ -5,7 +5,6 @@ import br.futurodev.joinville.m1s10.dtos.materials.MaterialResponseDto;
 import br.futurodev.joinville.m1s10.entities.Material;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MaterialMapper {
 

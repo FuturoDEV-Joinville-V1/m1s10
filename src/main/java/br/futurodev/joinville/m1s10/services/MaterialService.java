@@ -2,7 +2,6 @@ package br.futurodev.joinville.m1s10.services;
 
 import br.futurodev.joinville.m1s10.dtos.materials.MaterialRequestDto;
 import br.futurodev.joinville.m1s10.dtos.materials.MaterialResponseDto;
-import br.futurodev.joinville.m1s10.entities.Material;
 
 import java.util.List;
 
