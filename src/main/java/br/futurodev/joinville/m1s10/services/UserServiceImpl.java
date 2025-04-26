@@ -1,16 +1,20 @@
 package br.futurodev.joinville.m1s10.services;
 
+import br.futurodev.joinville.m1s10.dtos.logins.LoginRequestDto;
+import br.futurodev.joinville.m1s10.dtos.logins.LoginResponseDto;
 import br.futurodev.joinville.m1s10.dtos.users.UserRequestDto;
 import br.futurodev.joinville.m1s10.dtos.users.UserResponseDto;
 import br.futurodev.joinville.m1s10.entities.User;
 import br.futurodev.joinville.m1s10.mappers.UserMapper;
 import br.futurodev.joinville.m1s10.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -56,6 +60,20 @@ public class UserServiceImpl implements UserService {
     public void delete(Long id) {
         User user = findEntityById(id);
         repository.delete(user);
+    }
+
+    @Override
+    public LoginResponseDto authenticate(LoginRequestDto dto) {
+        User user = repository.findByUsername(dto.getUsername()).orElseThrow();
+        if (!encoder.matches(dto.getPassword(), user.getPassword())) {
+            throw new BadCredentialsException("Invalid username or password");
+        }
+
+        String token = Base64.getEncoder().encodeToString(
+                (user.getUsername() + ":" + dto.getPassword()).getBytes()
+        );
+
+        return LoginResponseDto.builder().type("Basic").token(token).build();
     }
 
     private User findEntityById(Long id) {

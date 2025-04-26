@@ -1,5 +1,7 @@
 package br.futurodev.joinville.m1s10.services;
 
+import br.futurodev.joinville.m1s10.dtos.logins.LoginRequestDto;
+import br.futurodev.joinville.m1s10.dtos.logins.LoginResponseDto;
 import br.futurodev.joinville.m1s10.dtos.users.UserRequestDto;
 import br.futurodev.joinville.m1s10.dtos.users.UserResponseDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,5 +15,7 @@ public interface UserService extends UserDetailsService {
     UserResponseDto create(UserRequestDto dto);
     UserResponseDto update(Long id, UserRequestDto dto);
     void delete(Long id);
+
+    LoginResponseDto authenticate(LoginRequestDto dto);
 
 }
